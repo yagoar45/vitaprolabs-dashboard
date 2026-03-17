@@ -4,18 +4,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { UserIcon } from "@hugeicons/core-free-icons"
-import { useDemoMode } from "@/contexts/DemoModeContext"
 
 const copyOptions = [
   { value: "bia", label: "Bia" },
   { value: "karine", label: "Karine" },
   { value: "cloned", label: "Cloned" },
-]
-
-const demoCopyOptions = [
-  { value: "ana", label: "Ana" },
-  { value: "lucas", label: "Lucas" },
-  { value: "carlos", label: "Carlos" },
 ]
 
 interface CopyFilterProps {
@@ -25,9 +18,7 @@ interface CopyFilterProps {
 }
 
 export function CopyFilter({ value, onChange, className }: CopyFilterProps) {
-  const { isDemoMode } = useDemoMode()
   const [open, setOpen] = useState(false)
-  const options = isDemoMode ? demoCopyOptions : copyOptions
 
   const handleSelect = (copy: string | undefined) => {
     onChange(copy)
@@ -36,7 +27,7 @@ export function CopyFilter({ value, onChange, className }: CopyFilterProps) {
 
   const getLabel = (copy: string | undefined) => {
     if (!copy) return "Todas as copys"
-    const option = options.find((o) => o.value === copy)
+    const option = copyOptions.find((o) => o.value === copy)
     return option?.label || copy
   }
 
@@ -44,7 +35,7 @@ export function CopyFilter({ value, onChange, className }: CopyFilterProps) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         className={cn(
-          "inline-flex items-center gap -2 rounded-lg border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer",
+          "inline-flex items-center gap-2 rounded-lg border border-input bg-background px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer",
           className
         )}
       >
@@ -61,7 +52,7 @@ export function CopyFilter({ value, onChange, className }: CopyFilterProps) {
           >
             Todas as copies
           </Button>
-          {options.map((opt) => (
+          {copyOptions.map((opt) => (
             <Button
               key={opt.value}
               variant={value === opt.value ? "secondary" : "ghost"}

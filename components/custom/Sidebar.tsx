@@ -15,7 +15,6 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react"
 import { Home09Icon, Logout03Icon, MegaphoneIcon, Rocket01Icon } from "@hugeicons/core-free-icons"
 import { useAuth } from "@/contexts/AuthContext"
-import { useDemoMode } from "@/contexts/DemoModeContext"
 import { cn } from "@/lib/utils"
 
 const navItems = [
@@ -26,7 +25,6 @@ const navItems = [
 export function AppSidebar() {
   const pathname = usePathname()
   const { signOut } = useAuth()
-  const { isDemoMode, toggleDemoMode } = useDemoMode()
 
   return (
     <Sidebar>
@@ -36,20 +34,9 @@ export function AppSidebar() {
             <HugeiconsIcon icon={Rocket01Icon} strokeWidth={2} className="h-6 w-6 text-primary" />
           </div>
           <span className="text-lg font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-            {isDemoMode ? "Demo" : "Dashboard"}
+            Dashboard
           </span>
         </div>
-        <button
-          onClick={toggleDemoMode}
-          className={cn(
-            "mt-2 w-full rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-200 group-data-[collapsible=icon]:hidden",
-            isDemoMode
-              ? "bg-primary/10 text-primary hover:bg-primary/20"
-              : "text-sidebar-foreground/40 hover:bg-sidebar-accent hover:text-sidebar-foreground/60"
-          )}
-        >
-          {isDemoMode ? "Demo ativo" : "Ativar demo"}
-        </button>
       </SidebarHeader>
 
       <SidebarContent className="p-3">

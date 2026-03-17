@@ -5,9 +5,7 @@ import { cn } from "@/lib/utils"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { FilterIcon } from "@hugeicons/core-free-icons"
 import { getAvailableSources } from "@/integration/api/services/dashboardService"
-import { useDemoMode } from "@/contexts/DemoModeContext"
 
-// Mapeamento de alias para nome amigável
 const sourceLabels: Record<string, string> = {
   facebook: "Facebook",
   google: "Google Ads",
@@ -21,20 +19,12 @@ interface SourceFilterProps {
   className?: string
 }
 
-const DEMO_SOURCES = ["facebook", "google", "taboola"]
-
 export function SourceFilter({ value, onChange, className }: SourceFilterProps) {
-  const { isDemoMode } = useDemoMode()
   const [open, setOpen] = useState(false)
   const [sources, setSources] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (isDemoMode) {
-      setSources(DEMO_SOURCES)
-      setLoading(false)
-      return
-    }
     async function fetchSources() {
       try {
         const data = await getAvailableSources()
@@ -46,7 +36,7 @@ export function SourceFilter({ value, onChange, className }: SourceFilterProps) 
       }
     }
     fetchSources()
-  }, [isDemoMode])
+  }, [])
 
   const handleSelect = (source: string | undefined) => {
     onChange(source)

@@ -3,7 +3,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider } from "@/components/custom/ThemeProvider"
 import { AuthProvider } from "@/contexts/AuthContext"
-import { DemoModeProvider } from "@/contexts/DemoModeContext"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,9 +19,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" storageKey="dash-ui-theme">
         <AuthProvider>
-          <DemoModeProvider>
-            {children}
-          </DemoModeProvider>
+          {children}
         </AuthProvider>
       </ThemeProvider>
     </QueryClientProvider>

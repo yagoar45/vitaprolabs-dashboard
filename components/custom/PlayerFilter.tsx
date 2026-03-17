@@ -7,7 +7,6 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Video01Icon, Search01Icon } from "@hugeicons/core-free-icons"
 import { getVTurbPlayers } from "@/integration/api/services/adService"
 import type { VTurbPlayer } from "@/integration/api/services/adService"
-import { useDemoMode } from "@/contexts/DemoModeContext"
 
 interface PlayerFilterProps {
   value: string | undefined
@@ -15,25 +14,13 @@ interface PlayerFilterProps {
   className?: string
 }
 
-const DEMO_PLAYERS: VTurbPlayer[] = [
-  { id: "demo-1", name: "VSL Principal" },
-  { id: "demo-2", name: "VSL Depoimentos" },
-  { id: "demo-3", name: "VSL Urgência" },
-]
-
 export function PlayerFilter({ value, onChange, className }: PlayerFilterProps) {
-  const { isDemoMode } = useDemoMode()
   const [open, setOpen] = useState(false)
   const [players, setPlayers] = useState<VTurbPlayer[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
 
   useEffect(() => {
-    if (isDemoMode) {
-      setPlayers(DEMO_PLAYERS)
-      setLoading(false)
-      return
-    }
     async function fetchPlayers() {
       try {
         const data = await getVTurbPlayers()
@@ -45,9 +32,8 @@ export function PlayerFilter({ value, onChange, className }: PlayerFilterProps) 
       }
     }
     fetchPlayers()
-  }, [isDemoMode])
+  }, [])
 
-  // Limpar busca ao fechar
   useEffect(() => {
     if (!open) setSearch("")
   }, [open])

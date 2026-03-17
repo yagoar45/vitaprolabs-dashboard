@@ -4,8 +4,6 @@ import type { DateRange } from "react-day-picker"
 import { useQuery } from "@tanstack/react-query"
 import { getAds } from "@/integration/api/services/adService"
 import type { AdData, AdTotals } from "@/integration/api/services/adService"
-import { useDemoMode } from "@/contexts/DemoModeContext"
-import { DEMO_ADS_RESPONSE } from "@/data/demo"
 
 export type SortField = keyof Omit<AdData, "name"> | "name"
 export type SortDirection = "asc" | "desc"
@@ -15,7 +13,6 @@ function getInitialDateRange(): DateRange {
 }
 
 export function useAdsData() {
-  const { isDemoMode } = useDemoMode()
   const [source, setSource] = useState<string | undefined>(undefined)
   const [copy, setCopy] = useState<string | undefined>(undefined)
   const [playerId, setPlayerId] = useState<string | undefined>(undefined)
@@ -37,12 +34,11 @@ export function useAdsData() {
       copy,
       player_id: playerId,
     }),
-    enabled: dateParams !== null && !isDemoMode,
+    enabled: dateParams !== null,
   })
 
-  const resolvedResponse = isDemoMode ? DEMO_ADS_RESPONSE : response
-  const ads = resolvedResponse?.items ?? []
-  const totals = resolvedResponse?.totals ?? null
+  const ads = response?.items ?? []
+  const totals = response?.totals ?? null
 
   const filteredAndSortedAds = useMemo(() => {
     let result = ads
@@ -145,7 +141,7 @@ export function useAdsData() {
     sortField, sortDirection, handleSort,
     filteredAndSortedAds,
     displayTotals,
-    loading: isDemoMode ? false : loading,
-    error: isDemoMode ? null : (queryError ? "Erro ao carregar ads" : null),
+    loading,
+    error: queryError ? "Erro ao carregar ads" : null,
   }
 }
