@@ -5,7 +5,6 @@ import { AppLayout } from "@/components/custom/AppLayout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DateRangePicker } from "@/components/custom/DateRangePicker"
 import { SourceFilter } from "@/components/custom/SourceFilter"
-import { CopyFilter } from "@/components/custom/CopyFilter"
 import { PlayerFilter } from "@/components/custom/PlayerFilter"
 import { useAdsData } from "@/hooks/useAdsData"
 import { AdsSearchBar } from "@/components/custom/AdsSearchBar"
@@ -16,7 +15,6 @@ export default function AdsPage() {
   const isMobile = useIsMobile()
   const {
     source, setSource,
-    copy, setCopy,
     playerId, setPlayerId,
     dateRange, setDateRange,
     search, setSearch,
@@ -39,7 +37,6 @@ export default function AdsPage() {
           <div className="flex flex-wrap items-center gap-2">
             <DateRangePicker value={dateRange} onChange={setDateRange} />
             <SourceFilter value={source} onChange={setSource} />
-            <CopyFilter value={copy} onChange={setCopy} />
             <PlayerFilter value={playerId} onChange={setPlayerId} />
           </div>
         </CardHeader>

@@ -14,7 +14,6 @@ function getInitialDateRange(): DateRange {
 
 export function useAdsData() {
   const [source, setSource] = useState<string | undefined>(undefined)
-  const [copy, setCopy] = useState<string | undefined>(undefined)
   const [playerId, setPlayerId] = useState<string | undefined>(undefined)
   const [dateRange, setDateRange] = useState<DateRange | undefined>(getInitialDateRange())
   const [search, setSearch] = useState("")
@@ -26,12 +25,11 @@ export function useAdsData() {
     : null
 
   const { data: response, isLoading: loading, error: queryError } = useQuery({
-    queryKey: ["ads", dateParams?.date_from, dateParams?.date_to, source, copy, playerId],
+    queryKey: ["ads", dateParams?.date_from, dateParams?.date_to, source, playerId],
     queryFn: () => getAds({
       date_from: dateParams!.date_from,
       date_to: dateParams!.date_to,
       source,
-      copy,
       player_id: playerId,
     }),
     enabled: dateParams !== null,
@@ -134,7 +132,6 @@ export function useAdsData() {
 
   return {
     source, setSource,
-    copy, setCopy,
     playerId, setPlayerId,
     dateRange, setDateRange,
     search, setSearch,
